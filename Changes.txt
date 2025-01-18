@@ -1,5 +1,9 @@
 Changes:
 
+Version 1.20, 2025-01-18
+- Windows 11: animated switch to new desktop is now optional
+- Improve commandline parsing
+
 Version 1.19, 2024-09-01
 - faster API call FindWindow instead of EnumWindows
 - Windows 11: animated switch to new desktop
