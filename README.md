@@ -1,11 +1,13 @@
 # VirtualDesktop
 C# command line tool to manage virtual desktops in Windows 10 and Windows 11
 
+Forked from https://github.com/MScholtes/VirtualDesktop to add featues
+
 **Pre-compiled binaries in Releases now**
 
-**Version 1.19, 2024-09-01**
-- faster API call FindWindow instead of EnumWindows
-- Windows 11: animated switch to new desktop
+**Version 1.20, 2025-01-18**
+- Windows 11: animated desktop switch is now optional 
+- Improve commandline parser
 
 (look for a powershell version here: https://github.com/MScholtes/PSVirtualDesktop or here: https://www.powershellgallery.com/packages/VirtualDesktop)
 
@@ -25,6 +27,8 @@ Virtual desktop numbers start with 0.
 **/Verbose /Quiet**  enable verbose (default) or quiet mode (short: /v and /q).
 
 **/Break /Continue** break (default) or continue on error (short: /b and /co).
+
+**/Animate /Instant** use animated transition (default) or instant (short: /a and /i).
 
 **/List**            list all virtual desktops (short: /li).
 
