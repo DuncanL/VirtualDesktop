@@ -1,5 +1,5 @@
-// Author: Markus Scholtes, 2024
-// Version 1.19, 2024-09-01
+// Author: Markus Scholtes, Duncan Lilly - 2024-2025
+// Version 1.20 2025-01-18
 // Version for Windows Server 2022
 // Compile with:
 // C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe VirtualDesktop.cs
@@ -17,11 +17,11 @@ using System.Reflection;
 [assembly:AssemblyConfiguration("")]
 [assembly:AssemblyCompany("MS")]
 [assembly:AssemblyProduct("VirtualDesktop")]
-[assembly:AssemblyCopyright("© Markus Scholtes 2024")]
+[assembly:AssemblyCopyright("\u00A9 Markus Scholtes, Duncan Lilly - 2025")]
 [assembly:AssemblyTrademark("")]
 [assembly:AssemblyCulture("")]
-[assembly:AssemblyVersion("1.19.0.0")]
-[assembly:AssemblyFileVersion("1.19.0.0")]
+[assembly:AssemblyVersion("1.20.0.0")]
+[assembly:AssemblyFileVersion("1.20.0.0")]
 
 // Based on http://stackoverflow.com/a/32417530, Windows 10 SDK, github project Grabacr07/VirtualDesktop and own research
 
@@ -682,6 +682,60 @@ namespace VDeskTool
 				return -2;
 			}
 
+			// Pre parse any settings that should apply globally (i.e a setting like
+			// VERBOSE should apply no matter where in the command line order it appears)
+			foreach (string arg in args)
+			{
+				System.Text.RegularExpressions.GroupCollection groups = System.Text.RegularExpressions.Regex.Match(arg, @"^[-\/]?([^:=]+)[:=]?(.*)$").Groups;
+
+				if (groups[2].Value == "")
+				{ // parameter without value
+					switch(groups[1].Value.ToUpper())
+					{
+						case "HELP": // help screen
+						case "H":
+						case "?":
+							HelpScreen();
+							return 0;
+
+						case "QUIET": // don't display messages
+						case "Q":
+							verbose = false;
+							break;
+
+						case "VERBOSE": // display messages
+						case "V":
+							Console.WriteLine("Verbose mode enabled");
+							verbose = true;
+							break;
+
+						case "BREAK": // break on error
+						case "B":
+							if (verbose) Console.WriteLine("Break on error enabled");
+							breakonerror = true;
+							break;
+
+						case "CONTINUE": // continue on error
+						case "CO":
+							if (verbose) Console.WriteLine("Break on error disabled");
+							breakonerror = false;
+							break;
+
+						case "WRAP": // wrap desktops using "LEFT" or "RIGHT"
+						case "W":
+							if (verbose) Console.WriteLine("Wrapping desktops enabled");
+							wrapdesktops = true;
+							break;
+
+						case "NOWRAP": // do not wrap desktops
+						case "NW":
+							if (verbose) Console.WriteLine("Wrapping desktop disabled");
+							wrapdesktops = false;
+							break;
+					}
+				}
+			}
+
 			foreach (string arg in args)
 			{
 				System.Text.RegularExpressions.GroupCollection groups = System.Text.RegularExpressions.Regex.Match(arg, @"^[-\/]?([^:=]+)[:=]?(.*)$").Groups;
@@ -698,45 +752,19 @@ namespace VDeskTool
 					{ // parameter without value
 						switch(groups[1].Value.ToUpper())
 						{
-							case "HELP": // help screen
-							case "H":
-							case "?":
-								HelpScreen();
-								return 0;
-
+							// All these are handled earlier; so supress any error by doing nothing
 							case "QUIET": // don't display messages
 							case "Q":
-								verbose = false;
-								break;
-
 							case "VERBOSE": // display messages
 							case "V":
-								Console.WriteLine("Verbose mode enabled");
-								verbose = true;
-								break;
-
 							case "BREAK": // break on error
 							case "B":
-								if (verbose) Console.WriteLine("Break on error enabled");
-								breakonerror = true;
-								break;
-
 							case "CONTINUE": // continue on error
 							case "CO":
-								if (verbose) Console.WriteLine("Break on error disabled");
-								breakonerror = false;
-								break;
-
 							case "WRAP": // wrap desktops using "LEFT" or "RIGHT"
 							case "W":
-								if (verbose) Console.WriteLine("Wrapping desktops enabled");
-								wrapdesktops = true;
-								break;
-
 							case "NOWRAP": // do not wrap desktops
 							case "NW":
-								if (verbose) Console.WriteLine("Wrapping desktop disabled");
-								wrapdesktops = false;
 								break;
 
 							case "COUNT": // get count of desktops
@@ -2498,9 +2526,9 @@ namespace VDeskTool
 
 		static void HelpScreen()
 		{
-			Console.WriteLine("VirtualDesktop.exe\t\t\t\tMarkus Scholtes, 2024, v1.19\n");
+			Console.WriteLine("VirtualDesktop.exe\t\t\t\tMarkus Scholtes & Duncan Lilly, 2025, v1.20\n");
 
-			Console.WriteLine("Command line tool to manage the virtual desktops of Windows Server 2022.");
+			Console.WriteLine("Command line tool to manage the virtual desktops of Windows Server 2016.");
 			Console.WriteLine("Parameters can be given as a sequence of commands. The result - most of the");
 			Console.WriteLine("times the number of the processed desktop - can be used as input for the next");
 			Console.WriteLine("parameter. The result of the last command is returned as error level.");

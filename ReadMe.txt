@@ -1,13 +1,13 @@
-https://github.com/MScholtes/VirtualDesktop/
+https://github.com/DuncanL/VirtualDesktop/
 
 
 VirtualDesktop
 
 C# command line tool to manage virtual desktops in Windows 10 and Windows 11
 
-Version 1.19, 2024-09-01
-- faster API call FindWindow instead of EnumWindows
-- Windows 11: animated switch to new desktop
+Version 1.20, 2025-01-18
+- Windows 11: animated switch to new desktop is now optional
+- Improve commandline parsing
 
 (look for a powershell version here:
 https://github.com/MScholtes/PSVirtualDesktop
@@ -29,7 +29,7 @@ Generate:
 Description:
  Command line tool to manage the virtual desktops of Windows 10 and 11.
  Parameters can be given as a sequence of commands. The result - most of
- thetimes the number of the processed desktop - can be used as input for the
+ the times the number of the processed desktop - can be used as input for the
  next parameter. The result of the last command is returned as error level.
  Virtual desktop numbers start with 0.
 

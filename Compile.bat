@@ -1,5 +1,5 @@
 @echo off
-:: Markus Scholtes, 2024
+:: Markus Scholtes, Duncan Lilly - 2024-2025
 :: Compile VirtualDesktop in .Net 4.x environment
 setlocal
 
